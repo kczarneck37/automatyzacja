@@ -1,1 +1,2 @@
-# automatyzacja
+# automatyzacja i narzędzia testowe
+- ćwiczenia
