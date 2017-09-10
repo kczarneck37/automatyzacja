@@ -1,1 +1,26 @@
-
+*** Settings ***
+Library    SSHLibrary
+    
+*** Variable ***
+${message}   Welcome to Ubuntu 16.04.2 LTS
+${output}    
+${file_list}
+${file}
+*** Test Cases ***
+SSHCase
+    Open Connection    46.101.195.218
+    ${output}    login    studentwsb    lubieStudia@#
+    Should Contain    ${output}    to Ubuntu
+    Should Contain     ${output}    Welcome
+    Should Contain    ${output}    Welcome 16.04    #Tutaj powinien być test fail 
+    Should Contain    ${output}    ${message}       
+    ${file_list}    List Directory    .
+    : FOR    ${file}    IN    @{file_list}
+    \    ${file_content}    Execute Command    cat./${file}
+    \    Log    ${file_content}
+    
+Commands
+    ${written}=    Write    su
+    Should Contain    ${written}    su
+    ${output}=	Read
+    Should Not Contain	${output}	${written}
