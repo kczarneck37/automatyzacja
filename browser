@@ -1,0 +1,23 @@
+***Settings***
+Library           Selenium2Library    
+Library           Collections
+*** Variables ***
+${url}    http://www.wsb.pl/kandydaci/studia-i-stopnia
+${tesxt}    dyplom licencjata
+${element}    ciasteczkowy_potwor
+${link}    PL
+${link2}    /kandydaci/studia-i-stopnia/e-informator
+*** Test Cases ***
+Logowanie
+    Open Browser    ${url}    chrome
+    Location Should Be    ${url}
+    Page Should Contain    ${tesxt}
+    Page Should Contain Element      ${element}  
+    Page Should Contain Link        ${link}
+    Page Should Contain Link        ${link2}
+    Click Link    ${link2}
+    Wait Until Page Contains    kandydaci
+    Page Should Contain    E-informator       
+     
+    Close All Browsers    
+    
