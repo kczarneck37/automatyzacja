@@ -1,0 +1,32 @@
+*** Settings ***
+Documentation     Test suite created with FireRobot
+Library           Selenium2Library    15.0    5.0
+Library           Collections
+
+*** Variables ***
+${url}            http://joao-carloto.github.io/RF_Install_Script/test.html
+
+*** Test Cases ***
+EA Installer Demo Test Firefox
+    Start Firefox    ${url}
+    Page Should Contain    RF Install Script Test Page
+    Input Text    sometextbox    Congratulations!
+    Input Text    sometextarea    If you are reading this, you have completed your Robot Framework setup.\n\nTo run this test again on RIDE, click on the 'Run Tests' button.\n\nTo learn more about the immense possibilities of the Robot Framework go to http://robotframework.org/.
+    ${locator}    Get Webelement    project_title
+    Log    End
+
+EA Installer Demo Test Chrome
+    Open Browser    ${url}    Chrome
+    Page Should Contain    RF Install Script Test Page
+    Input Text    sometextbox    Congratulations!
+    Input Text    sometextarea    If you are reading this, you have completed your Robot Framework setup.\n\nTo run this test again on RIDE, click on the 'Run Tests' button.\n\nTo learn more about the immense possibilities of the Robot Framework go to http://robotframework.org/.
+    Comment     dsadsa
+
+*** Keywords ***
+Start Firefox
+    [Arguments]    ${url}
+    ${capabilities}    Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
+    Remove From Dictionary    ${capabilities}    acceptInsecureCerts    browserName    marionette
+    Create Webdriver    Firefox    kwargs=${capabilities}
+    Go To    ${url}
+© 2017 GitHub, Inc.
