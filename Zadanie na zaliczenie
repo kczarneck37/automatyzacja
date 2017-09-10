@@ -1,1 +1,31 @@
+***Settings***
+Library    SSHLibrary
+Library    RequestsLibrary
+Library    Collections    
+   
+***Variables***
+${path}    http://wsb4it.getsandbox.com
+${users}    http://wsb4it.getsandbox.com/users
+${clientID}    Lubie testowac
+${userId}        4266242
+${signatureId}    zzz
+${timestamp}    128
 
+*** Test Cases ***
+getSandbox
+    Create Session    getSandbox    ${path}
+    ${resp}=    Get Request   getSandbox    /users    
+    ${jsondata}=  To Json  ${resp.content}
+    Should Be Equal As Strings  ${resp.status_code}  200
+    :FOR    ${user}    IN     ${jsondata}
+    \    log        ${user}
+    \    ${resp}    Get Request    getSandbox   /users/${user}    
+    
+setUser
+    ${headers}    Create Dictionary    clientId=${clientId}   signature=${signatureId}    timestamp=${timestamp}  
+    Create Session    user    ${path}    headers=${headers}
+     ${resp}=    Get Request   user    /user/${userId}
+     log    ${resp.content}
+      ${jsondata}=  To Json  ${resp.content}
+      ${newjsondata}=    To Json    ${jsondata}    
+      # ${dane}    Dictionary Should Contain Value    ${newjsondata}[user][privateFields][country]       
